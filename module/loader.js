@@ -20,8 +20,12 @@ class Loader {
     this.dir = dir;
   }
   async load(){
-    const rs = await axios.get(this.url,{responseType: 'stream'});
-    rs.data.pipe(fs.createWriteStream(this.savePath))
+    try {
+      const rs = await axios.get(this.url,{responseType: 'stream'});
+      rs.data.pipe(fs.createWriteStream(this.savePath))
+    }catch(e){
+      throw e;
+    }
   }
   get savePath(){
     return path.resolve(this.dir,this.name);
